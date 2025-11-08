@@ -32,6 +32,16 @@ builder.Services.AddScoped<IKafkaTransaction, KafkaTransaction>();
 builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 builder.Services.AddOpenApi();
 
+builder.Services.AddHttpClient<ISUtilityServiceClient, SUtilityServiceClient>(client =>
+{
+    string? serviceUrl = builder.Configuration["ServiceUrls:SUtilityService"];
+    if (string.IsNullOrEmpty(serviceUrl))
+    {
+        throw new InvalidOperationException("SUtilityService URL is not configured in appsettings.json.");
+    }
+    client.BaseAddress = new Uri(serviceUrl);
+});
+
 // Database
 builder.Services.AddDbContext<InterviewSimulationDataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

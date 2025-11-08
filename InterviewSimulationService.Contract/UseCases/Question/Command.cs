@@ -1,3 +1,4 @@
+using ForumService.Contract.TransferObjects;
 using InterviewSimulation.Contract.Message;
 using InterviewSimulation.Contract.Shared;
 using InterviewSimulation.Contract.TransferObjects;
@@ -12,10 +13,9 @@ namespace InterviewSimulation.Contract.UseCases.Question
             string Title,
             int Difficulty,
             string QuestionText,
-            string? QuestionVideoUrl,
             string? Prefix,
             string? Filename,
-            string? PublicUrl
+            FileToUploadDto? FilesToUpload
         ) : ICommand<BaseResponseDto<QuestionRespone>>;
 
         public record UpdateQuestionCommand(
