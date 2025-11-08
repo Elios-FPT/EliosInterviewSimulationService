@@ -27,5 +27,32 @@ namespace InterviewSimulation.Core.Extensions
             };
         }
 
+        public static QuestionDto ToDto(this Question question)
+        {
+            return new QuestionDto
+            {
+                Id = question.Id,
+                CategoryId = question.CategoryId,
+                Title = question.Title,
+                Difficulty = question.Difficulty,
+                QuestionText = question.QuestionText,
+                QuestionVideoUrl = question.QuestionVideoUrl,
+                Prefix = question.Prefix,
+                Filename = question.Filename,
+                PublicUrl = question.PublicUrl,
+                IsActive = question.IsActive,
+                CreatedAt = question.CreatedAt
+            };
+        }
+
+        public static CategoryDto ToDto(this Category category)
+        {
+            return new CategoryDto
+            {
+                Id = category.Id,
+                Name = category.Name,
+            };
+        }
+
     }
 }

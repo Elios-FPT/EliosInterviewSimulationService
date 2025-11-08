@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InterviewSimulationService.Contract\InterviewSimulation.Contract.csproj" />
     <ProjectReference Include="..\InterviewSimulationService.Domain\InterviewSimulation.Domain.csproj" />
   </ItemGroup>
 
