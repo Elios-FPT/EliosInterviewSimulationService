@@ -14,10 +14,12 @@ namespace InterviewSimulation.Core.Handler.Question.Command
     public class CreateQuestionCommandHandler : ICommandHandler<CreateQuestionCommand, BaseResponseDto<QuestionRespone>>
     {
         private readonly IGenericRepository<Domain.Entities.Question> _repository;
+        private readonly ISUtilityServiceClient _utilityServiceClient;
 
-        public CreateQuestionCommandHandler(IGenericRepository<Domain.Entities.Question> repository)
+        public CreateQuestionCommandHandler(IGenericRepository<Domain.Entities.Question> repository, ISUtilityServiceClient utilityServiceClient)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _utilityServiceClient = utilityServiceClient;
         }
 
         public async Task<BaseResponseDto<QuestionRespone>> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
@@ -67,6 +69,14 @@ namespace InterviewSimulation.Core.Handler.Question.Command
                 using var transaction = await _repository.BeginTransactionAsync();
                 try
                 {
+                    var keyPrefix = $"interview/{Guid.NewGuid().ToString()}";
+                    var uploadedUrl = await _utilityServiceClient.UploadFileAsync(keyPrefix, request.FilesToUpload, cancellationToken);
+
+                    if (string.IsNullOrEmpty(uploadedUrl))
+                    {
+                        return new BaseResponseDto<QuestionRespone> { Status = 400, Message = $"Failed to upload file: {request.FilesToUpload.FileName}. Question creation cancelled.", ResponseData = default };
+                    }
+
                     var entity = new Domain.Entities.Question
                     {
                         Id = Guid.NewGuid(),
@@ -74,10 +84,10 @@ namespace InterviewSimulation.Core.Handler.Question.Command
                         Title = request.Title,
                         Difficulty = request.Difficulty,
                         QuestionText = request.QuestionText,
-                        QuestionVideoUrl = request.QuestionVideoUrl,
+                        QuestionVideoUrl = uploadedUrl,
                         Prefix = request.Prefix,
                         Filename = request.Filename,
-                        PublicUrl = request.PublicUrl,
+                        PublicUrl = uploadedUrl,
                         IsActive = true,
                         CreatedAt = DateTime.UtcNow
                     };

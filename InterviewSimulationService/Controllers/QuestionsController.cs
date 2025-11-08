@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using ForumService.Contract.TransferObjects;
 using InterviewSimulation.Contract.Shared;
 using InterviewSimulation.Contract.TransferObjects;
 using InterviewSimulation.Contract.UseCases.Question;
@@ -26,17 +27,35 @@ namespace InterviewSimulation.Web.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(BaseResponseDto<QuestionRespone>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<BaseResponseDto<QuestionRespone>> CreateQuestion([FromBody] CreateQuestionRequest request)
+        public async Task<BaseResponseDto<QuestionRespone>> CreateQuestion([FromForm] CreateQuestionRequest request, IFormFile file)
+
         {
+            var userIdHeader = HttpContext.Request.Headers["X-Auth-Request-User"].FirstOrDefault();
+            // Convert IFormFile to DTO
+            var filesToUpload = new FileToUploadDto();
+            if (file is not null)
+            {
+                if (file.Length > 0)
+                {
+                    using var memoryStream = new MemoryStream();
+                    await file.CopyToAsync(memoryStream);
+                    filesToUpload = new FileToUploadDto
+                    {
+                        FileName = file.FileName,
+                        ContentType = file.ContentType,
+                        Content = memoryStream.ToArray()
+                    };
+                }
+            }
+
             var command = new CreateQuestionCommand(
                 CategoryId: request.CategoryId,
                 Title: request.Title,
                 Difficulty: request.Difficulty,
                 QuestionText: request.QuestionText,
-                QuestionVideoUrl: request.QuestionVideoUrl,
+                FilesToUpload: filesToUpload,
                 Prefix: request.Prefix,
-                Filename: request.Filename,
-                PublicUrl: request.PublicUrl);
+                Filename: request.Filename);
             return await _sender.Send(command);
         }
 

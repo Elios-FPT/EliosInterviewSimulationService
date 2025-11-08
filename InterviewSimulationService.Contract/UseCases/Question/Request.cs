@@ -1,3 +1,4 @@
+using ForumService.Contract.TransferObjects;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,10 +11,8 @@ namespace InterviewSimulation.Contract.UseCases.Question
             [Required] string Title,
             [Required] int Difficulty,
             [Required] string QuestionText,
-            string? QuestionVideoUrl,
             string? Prefix,
-            string? Filename,
-            string? PublicUrl
+            string? Filename
         );
 
         public record UpdateQuestionRequest(
