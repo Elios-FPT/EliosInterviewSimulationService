@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace InterviewSimulationService.Infrastructure.Migrations
+namespace InterviewSimulation.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class initdatabase : Migration

@@ -33,7 +33,9 @@ ScaffoldingReadMe.txt
 # NuGet
 *.nupkg
 *.snupkg
-.cursor
+FlowCreateApi.md
+CLAUDE.md
+FlowCreateApi.md
 **/packages/*
 !**/packages/build/
 !**/packages/repositories.config

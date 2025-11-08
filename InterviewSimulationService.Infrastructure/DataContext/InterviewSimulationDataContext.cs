@@ -1,11 +1,11 @@
-using InterviewSimulationService.Domain.Entities;
+using InterviewSimulation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace InterviewSimulationService.Infrastructure.DataContext
+namespace InterviewSimulation.Infrastructure.DataContext
 {
-	public class ISDataContext : DbContext
+	public class InterviewSimulationDataContext : DbContext
 	{
-		public ISDataContext(DbContextOptions<ISDataContext> options) : base(options)
+		public InterviewSimulationDataContext(DbContextOptions<InterviewSimulationDataContext> options) : base(options)
 		{
 		}
 

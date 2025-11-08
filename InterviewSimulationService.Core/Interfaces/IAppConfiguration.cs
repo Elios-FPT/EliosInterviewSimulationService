@@ -1,0 +1,11 @@
+﻿
+
+namespace InterviewSimulation.Core.Interfaces
+{
+    public interface IAppConfiguration
+    {
+        string GetKafkaBootstrapServers();
+
+        string GetCurrentServiceName();
+    }
+}

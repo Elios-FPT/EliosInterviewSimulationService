@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using InterviewSimulationService.Domain.Entities;
+using InterviewSimulation.Domain.Entities;
 
-namespace InterviewSimulationService.Domain.Entities
+namespace InterviewSimulation.Domain.Entities
 {
 	public class Question : BaseEntity
 	{

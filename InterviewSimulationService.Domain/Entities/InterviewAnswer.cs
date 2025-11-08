@@ -1,7 +1,7 @@
 using System;
-using InterviewSimulationService.Domain.Entities;
+using InterviewSimulation.Domain.Entities;
 
-namespace InterviewSimulationService.Domain.Entities
+namespace InterviewSimulation.Domain.Entities
 {
 	public class InterviewAnswer : BaseEntity
 	{
