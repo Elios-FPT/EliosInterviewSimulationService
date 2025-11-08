@@ -16,7 +16,7 @@ namespace InterviewSimulation.Contract.UseCases.Question
             string? Prefix,
             string? Filename,
             string? PublicUrl
-        ) : ICommand<BaseResponseDto<QuestionDto>>;
+        ) : ICommand<BaseResponseDto<QuestionRespone>>;
 
         public record UpdateQuestionCommand(
             Guid Id,

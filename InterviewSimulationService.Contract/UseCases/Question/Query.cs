@@ -18,6 +18,6 @@ namespace InterviewSimulation.Contract.UseCases.Question
             Guid? CategoryId = null,
             int? Difficulty = null,
             bool? IsActive = null
-        ) : IQuery<BaseResponseDto<IEnumerable<QuestionDto>>>;
+        ) : IQuery<BaseResponseDto<IEnumerable<GetListQuestionsRespone>>>;
     }
 }

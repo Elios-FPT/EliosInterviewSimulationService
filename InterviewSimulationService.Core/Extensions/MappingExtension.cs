@@ -54,5 +54,17 @@ namespace InterviewSimulation.Core.Extensions
             };
         }
 
+        public static InterviewSimulation.Contract.UseCases.Question.GetListQuestionsRespone ToListDto(this Question question)
+        {
+            return new InterviewSimulation.Contract.UseCases.Question.GetListQuestionsRespone
+            {
+                Id = question.Id,
+                CategoryId = question.CategoryId,
+                Title = question.Title,
+                CategoryName = question.Category?.Name ?? string.Empty,
+                Difficulty = question.Difficulty
+            };
+        }
+
     }
 }
