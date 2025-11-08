@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+		<PackageReference Include="MediatR" Version="13.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
 			<PrivateAssets>all</PrivateAssets>
@@ -17,12 +18,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\InterviewSimulationService.Contract\InterviewSimulation.Contract.csproj" />
 	  <ProjectReference Include="..\InterviewSimulationService.Core\InterviewSimulation.Core.csproj" />
 	  <ProjectReference Include="..\InterviewSimulationService.Infrastructure\InterviewSimulation.Infrastructure.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Controllers\" />
 	</ItemGroup>
 
 </Project>
