@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InterviewSimulationService.Contract\InterviewSimulationService.Contract.csproj" />
-    <ProjectReference Include="..\InterviewSimulationService\InterviewSimulationService.Web.csproj" />
+    <ProjectReference Include="..\InterviewSimulationService.Contract\InterviewSimulation.Contract.csproj" />
+    <ProjectReference Include="..\InterviewSimulationService\InterviewSimulation.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

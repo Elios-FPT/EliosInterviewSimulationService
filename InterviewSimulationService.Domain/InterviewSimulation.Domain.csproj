@@ -5,13 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-	
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
-  </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InterviewSimulationService.Domain\InterviewSimulationService.Domain.csproj" />
+    <ProjectReference Include="..\InterviewSimulationService.Contract\InterviewSimulation.Contract.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,8 @@
-﻿namespace InterviewSimulation.Domain.Entities
+﻿namespace InterviewSimulation.Contract.TransferObjects
 {
-    public class Notification : BaseEntity
+    public class NotificationDto
     {
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public string Title { get; set; }
         public string Message { get; set; }

@@ -1,6 +1,6 @@
-@InterviewSimulationService_HostAddress = http://localhost:5053
+@InterviewSimulation_HostAddress = http://localhost:5053
 
-GET {{InterviewSimulationService_HostAddress}}/weatherforecast/
+GET {{InterviewSimulation_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

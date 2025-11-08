@@ -17,8 +17,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\InterviewSimulationService.Core\InterviewSimulationService.Core.csproj" />
-	  <ProjectReference Include="..\InterviewSimulationService.Infrastructure\InterviewSimulationService.Infrastructure.csproj" />
+	  <ProjectReference Include="..\InterviewSimulationService.Core\InterviewSimulation.Core.csproj" />
+	  <ProjectReference Include="..\InterviewSimulationService.Infrastructure\InterviewSimulation.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

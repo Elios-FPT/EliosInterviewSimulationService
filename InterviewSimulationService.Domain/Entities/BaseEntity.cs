@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InterviewSimulationService.Domain.Entities
+namespace InterviewSimulation.Domain.Entities
 {
     public class BaseEntity
     {

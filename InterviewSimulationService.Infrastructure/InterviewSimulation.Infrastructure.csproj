@@ -29,11 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\InterviewSimulationService.Core\InterviewSimulationService.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="DataContext\" />
+	  <ProjectReference Include="..\InterviewSimulationService.Core\InterviewSimulation.Core.csproj" />
 	</ItemGroup>
 
 </Project>
