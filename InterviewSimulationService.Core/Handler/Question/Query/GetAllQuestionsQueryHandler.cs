@@ -1,8 +1,10 @@
 using InterviewSimulation.Contract.Message;
 using InterviewSimulation.Contract.Shared;
 using InterviewSimulation.Contract.TransferObjects;
+using InterviewSimulation.Contract.UseCases.Question;
 using InterviewSimulation.Core.Extensions;
 using InterviewSimulation.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ using static InterviewSimulation.Contract.UseCases.Question.Query;
 
 namespace InterviewSimulation.Core.Handler.Question.Query
 {
-    public class GetAllQuestionsQueryHandler : IQueryHandler<GetAllQuestionsQuery, BaseResponseDto<IEnumerable<QuestionDto>>>
+    public class GetAllQuestionsQueryHandler : IQueryHandler<GetAllQuestionsQuery, BaseResponseDto<IEnumerable<GetListQuestionsRespone>>>
     {
         private readonly IGenericRepository<Domain.Entities.Question> _repository;
 
@@ -21,11 +23,11 @@ namespace InterviewSimulation.Core.Handler.Question.Query
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public async Task<BaseResponseDto<IEnumerable<QuestionDto>>> Handle(GetAllQuestionsQuery request, CancellationToken cancellationToken)
+        public async Task<BaseResponseDto<IEnumerable<GetListQuestionsRespone>>> Handle(GetAllQuestionsQuery request, CancellationToken cancellationToken)
         {
             if (request.PageNumber <= 0 || request.PageSize <= 0)
             {
-                return new BaseResponseDto<IEnumerable<QuestionDto>>
+                return new BaseResponseDto<IEnumerable<GetListQuestionsRespone>>
                 {
                     Status = 400,
                     Message = "Page number and page size must be positive.",
@@ -37,16 +39,17 @@ namespace InterviewSimulation.Core.Handler.Question.Query
             {
                 var entities = await _repository.GetListAsync(
                     filter: q =>
-                        (!request.CategoryId.HasValue || q.CategoryId == request.CategoryId.Value) &&
-                        (!request.Difficulty.HasValue || q.Difficulty == request.Difficulty.Value) &&
-                        (!request.IsActive.HasValue || q.IsActive == request.IsActive.Value),
+                        (q.CategoryId == request.CategoryId) &&
+                        (q.Difficulty == request.Difficulty) &&
+                        (q.IsActive == request.IsActive),
+                    include: q => q.Include(x => x.Category),
                     orderBy: query => query.OrderByDescending(q => q.CreatedAt),
                     pageSize: request.PageSize,
                     pageNumber: request.PageNumber);
 
-                var dtos = entities.Select(e => e.ToDto()).ToList();
+                var dtos = entities.Select(e => e.ToListDto()).ToList();
 
-                return new BaseResponseDto<IEnumerable<QuestionDto>>
+                return new BaseResponseDto<IEnumerable<GetListQuestionsRespone>>
                 {
                     Status = 200,
                     Message = dtos.Any() ? "Questions retrieved successfully." : "No questions found.",
@@ -55,7 +58,7 @@ namespace InterviewSimulation.Core.Handler.Question.Query
             }
             catch (Exception ex)
             {
-                return new BaseResponseDto<IEnumerable<QuestionDto>>
+                return new BaseResponseDto<IEnumerable<GetListQuestionsRespone>>
                 {
                     Status = 500,
                     Message = $"Failed to retrieve questions: {ex.Message}",

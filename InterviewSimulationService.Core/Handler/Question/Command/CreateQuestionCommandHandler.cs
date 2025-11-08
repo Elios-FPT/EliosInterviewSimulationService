@@ -1,6 +1,7 @@
 using InterviewSimulation.Contract.Message;
 using InterviewSimulation.Contract.Shared;
 using InterviewSimulation.Contract.TransferObjects;
+using InterviewSimulation.Contract.UseCases.Question;
 using InterviewSimulation.Core.Extensions;
 using InterviewSimulation.Core.Interfaces;
 using System;
@@ -10,7 +11,7 @@ using static InterviewSimulation.Contract.UseCases.Question.Command;
 
 namespace InterviewSimulation.Core.Handler.Question.Command
 {
-    public class CreateQuestionCommandHandler : ICommandHandler<CreateQuestionCommand, BaseResponseDto<QuestionDto>>
+    public class CreateQuestionCommandHandler : ICommandHandler<CreateQuestionCommand, BaseResponseDto<QuestionRespone>>
     {
         private readonly IGenericRepository<Domain.Entities.Question> _repository;
 
@@ -19,11 +20,11 @@ namespace InterviewSimulation.Core.Handler.Question.Command
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public async Task<BaseResponseDto<QuestionDto>> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponseDto<QuestionRespone>> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
         {
             if (request.CategoryId == Guid.Empty)
             {
-                return new BaseResponseDto<QuestionDto>
+                return new BaseResponseDto<QuestionRespone>
                 {
                     Status = 400,
                     Message = "CategoryId cannot be empty.",
@@ -33,7 +34,7 @@ namespace InterviewSimulation.Core.Handler.Question.Command
 
             if (string.IsNullOrWhiteSpace(request.Title))
             {
-                return new BaseResponseDto<QuestionDto>
+                return new BaseResponseDto<QuestionRespone>
                 {
                     Status = 400,
                     Message = "Title cannot be null or empty.",
@@ -43,7 +44,7 @@ namespace InterviewSimulation.Core.Handler.Question.Command
 
             if (string.IsNullOrWhiteSpace(request.QuestionText))
             {
-                return new BaseResponseDto<QuestionDto>
+                return new BaseResponseDto<QuestionRespone>
                 {
                     Status = 400,
                     Message = "QuestionText cannot be null or empty.",
@@ -53,7 +54,7 @@ namespace InterviewSimulation.Core.Handler.Question.Command
 
             if (request.Difficulty < 1 || request.Difficulty > 5)
             {
-                return new BaseResponseDto<QuestionDto>
+                return new BaseResponseDto<QuestionRespone>
                 {
                     Status = 400,
                     Message = "Difficulty must be between 1 and 5.",
@@ -84,11 +85,20 @@ namespace InterviewSimulation.Core.Handler.Question.Command
                     await _repository.AddAsync(entity);
                     await transaction.CommitAsync();
 
-                    return new BaseResponseDto<QuestionDto>
+                    var respone = new QuestionRespone()
+                    {
+                        Id = entity.Id,
+                        CategoryId = entity.CategoryId,
+                        Title = entity.Title,
+                        Difficulty = entity.Difficulty,
+                        QuestionVideoUrl = entity.QuestionVideoUrl,
+                    };
+
+                    return new BaseResponseDto<QuestionRespone>
                     {
                         Status = 201,
                         Message = "Question created successfully.",
-                        ResponseData = entity.ToDto()
+                        ResponseData = respone
                     };
                 }
                 catch
@@ -99,7 +109,7 @@ namespace InterviewSimulation.Core.Handler.Question.Command
             }
             catch (Exception ex)
             {
-                return new BaseResponseDto<QuestionDto>
+                return new BaseResponseDto<QuestionRespone>
                 {
                     Status = 500,
                     Message = $"Failed to create question: {ex.Message}",

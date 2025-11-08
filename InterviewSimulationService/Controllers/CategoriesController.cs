@@ -43,11 +43,11 @@ namespace InterviewSimulation.Web.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(BaseResponseDto<IEnumerable<CategoryDto>>), StatusCodes.Status200OK)]
-        public async Task<BaseResponseDto<IEnumerable<CategoryDto>>> GetCategories([FromQuery] GetAllCategoriesRequest request)
+        public async Task<BaseResponseDto<IEnumerable<CategoryDto>>> GetCategories()
         {
             var query = new GetAllCategoriesQuery(
-                PageNumber: request.PageNumber,
-                PageSize: request.PageSize);
+                PageNumber: 1,
+                PageSize: 20);
             return await _sender.Send(query);
         }
 
