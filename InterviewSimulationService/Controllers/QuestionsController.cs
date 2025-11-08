@@ -40,6 +40,27 @@ namespace InterviewSimulation.Web.Controllers
             return await _sender.Send(command);
         }
 
-        
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(BaseResponseDto<QuestionDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<BaseResponseDto<QuestionDto>> GetQuestion([FromRoute] Guid id)
+        {
+            var query = new GetQuestionByIdQuery(Id: id);
+            return await _sender.Send(query);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(BaseResponseDto<IEnumerable<GetListQuestionsRespone>>), StatusCodes.Status200OK)]
+        public async Task<BaseResponseDto<IEnumerable<GetListQuestionsRespone>>> GetQuestions([FromQuery] GetAllQuestionsRequest request)
+        {
+            var query = new GetAllQuestionsQuery(
+                PageNumber: request.PageNumber,
+                PageSize: request.PageSize,
+                CategoryId: request.CategoryId,
+                Difficulty: request.Difficulty,
+                IsActive: request.IsActive);
+            return await _sender.Send(query);
+        }
+
     }
 }
