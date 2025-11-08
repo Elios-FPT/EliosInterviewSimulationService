@@ -45,7 +45,7 @@ namespace InterviewSimulation.Core.Handler.Category.Command
                 using var transaction = await _repository.BeginTransactionAsync();
                 try
                 {
-                    await _repository.UpdateAsync(entity);
+                    await _repository.DeleteAsync(entity);
                     await transaction.CommitAsync();
 
                     return new BaseResponseDto<bool>
