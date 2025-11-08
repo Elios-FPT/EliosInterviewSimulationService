@@ -62,5 +62,24 @@ namespace InterviewSimulation.Web.Controllers
             return await _sender.Send(query);
         }
 
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(BaseResponseDto<QuestionDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<BaseResponseDto<QuestionDto>> UpdateQuestion([FromRoute] Guid id, [FromBody] UpdateQuestionRequest request)
+        {
+            var command = new UpdateQuestionCommand(
+                Id: id,
+                CategoryId: request.CategoryId,
+                Title: request.Title,
+                Difficulty: request.Difficulty,
+                QuestionText: request.QuestionText,
+                QuestionVideoUrl: request.QuestionVideoUrl,
+                Prefix: request.Prefix,
+                Filename: request.Filename,
+                PublicUrl: request.PublicUrl,
+                IsActive: request.IsActive);
+            return await _sender.Send(command);
+        }
+
     }
 }
